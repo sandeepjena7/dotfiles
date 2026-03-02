@@ -1,0 +1,14 @@
+
+
+for rust.lua it need to manually install
+:MasonInstall codelldb
+
+
+
+
+if tresitte gave issue used below command
+:TSUpdate
+:TSInstall python lua markdown bash json yaml vim rust javascript typescript
+
+:Lazy sync
+:TSUpdate
