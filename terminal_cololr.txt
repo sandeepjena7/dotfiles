@@ -1,0 +1,15 @@
+Background color: #FDF6E3 (Solarized Light background)
+Text color: #657B83 (Solarized Light text)
+
+Or if you prefer the exact cream color from your screenshot:
+
+Background: #FFFBF0 or #FFF8DC
+Text: #000000 or #2E3436
+
+
+
+my setup
+#FDF6E3 (Solarized Light background)
+
+
+text -> #2E3436   
