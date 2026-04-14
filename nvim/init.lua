@@ -36,5 +36,5 @@ require("lazy").setup({
 	-- require("plugins.hover"),
 	-- require("plugins.remote"), not working future look this issue telecope issue
 	-- require("plugins.bracket"),
-	
+	require("plugins.markdown"),	
 })
