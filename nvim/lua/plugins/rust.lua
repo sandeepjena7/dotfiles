@@ -22,6 +22,17 @@ return {
       
       -- Check if codelldb actually exists at this path
       local codelldb_exists = vim.fn.filereadable(codelldb_path) == 1
+      local rustaceanvim_opts = {
+      server = {                          -- ← ADD THIS BLOCK
+        default_settings = {
+          ["rust-analyzer"] = {
+            diagnostics = {
+              disabled = { "unlinked-file" },   -- ← THIS FIXES IT
+            },
+          },
+        },
+      },
+    }
       
       if codelldb_exists then
         local cfg = require('rustaceanvim.config')
