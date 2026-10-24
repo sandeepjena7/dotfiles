@@ -38,3 +38,29 @@ require("lazy").setup({
 	-- require("plugins.bracket"),
 	require("plugins.markdown"),	
 })
+
+-- Always open the cheatsheet on startup
+local cheatsheet = vim.fn.expand("~/dotfiles/nvim_cheatsheet_clean.txt")
+
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		-- delay so alpha / neo-tree finish their own startup first
+		vim.defer_fn(function()
+			if vim.fn.filereadable(cheatsheet) == 0 then
+				return
+			end
+
+			local argc = vim.fn.argc()
+			local only_dir = argc == 1 and vim.fn.isdirectory(vim.fn.argv(0)) == 1
+
+			if argc == 0 or only_dir then
+				-- `nvim` or `nvim .`: show the cheatsheet instead of the dashboard
+				vim.cmd("edit " .. vim.fn.fnameescape(cheatsheet))
+			else
+				-- `nvim somefile`: keep your file, open the cheatsheet in a side split
+				vim.cmd("vsplit " .. vim.fn.fnameescape(cheatsheet))
+				vim.cmd("wincmd p") -- jump back to your file
+			end
+		end, 50)
+	end,
+})
