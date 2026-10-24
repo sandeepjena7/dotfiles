@@ -1,0 +1,409 @@
+################################################################################
+#                                                                              #
+#                        NEOVIM CHEAT SHEET  (MY CONFIG)                       #
+#                                                                              #
+################################################################################
+
+  Leader = <Space>        Ctrl+x = hold Ctrl and press x        <CR> = Enter
+  Modes:  n = Normal   i = Insert   v = Visual   x/s = Visual/Select
+
+  CONTENTS
+  ------------------------------------------------------------------------
+   1. Most used (quick view)         8. File explorer (Neo-tree)
+   2. Save, quit, edit               9. Python (venv + uv)
+   3. Windows, buffers, tabs        10. Rust
+   4. Search & find (Telescope)     11. Commenting
+   5. Autocomplete & snippets       12. Text objects (Treesitter)
+   6. LSP (code intelligence)      13. Behavior settings that matter
+   7. Hover, signature, diagnostics 14. Vim basics (from :Tutor)
+                                    15. Conflicts & config fixes
+
+
+================================================================================
+ 1. MOST USED (QUICK VIEW)
+================================================================================
+
+  Ctrl+s ............ save                  Space e ........... file explorer
+  Space s f ......... find file             Space s g ......... grep in project
+  Space Space ....... switch buffer         Space / ........... search in file
+  gd ................ go to definition      K ................. hover docs
+  Space r n ......... rename                Space c a ......... code action
+  Ctrl+/ ............ comment line          Tab / Shift+Tab ... next/prev buffer
+  Ctrl+h/j/k/l ...... move between splits  Space x ........... close buffer
+
+
+================================================================================
+ 2. SAVE, QUIT, EDIT
+================================================================================
+
+  Key                  Mode    Action
+  -------------------  ------  --------------------------------------------
+  Ctrl+s               n       Save file
+  Ctrl+s               i       Save and go back to Normal mode
+  Ctrl+s               v       Save from Visual mode
+  Space s n            n       Save WITHOUT auto-format
+  Ctrl+q               n       Quit file
+  x                    n       Delete character (does not overwrite clipboard)
+  p                    v       Paste over selection (keeps your copied text)
+  < / >                v       Indent left / right (selection stays)
+  Ctrl+d / Ctrl+u      n       Half page down / up (cursor centered)
+  n / N                n       Next / previous search match (centered)
+  Space l w            n       Toggle line wrap
+
+
+================================================================================
+ 3. WINDOWS, BUFFERS, TABS
+================================================================================
+
+  SPLITS
+  -------------------  ------  --------------------------------------------
+  Space v              n       Split vertically
+  Space h              n       Split horizontally
+  Space s e            n       Make all splits equal size
+  Space x s            n       Close current split  (see conflicts, sec. 15)
+  Ctrl+h / j / k / l   n       Move to split left / down / up / right
+
+  BUFFERS (open files)
+  -------------------  ------  --------------------------------------------
+  Tab                  n       Next buffer
+  Shift+Tab            n       Previous buffer
+  Space x              n       Close current buffer
+  Space Space          n       List buffers (Telescope)
+
+  TABS
+  -------------------  ------  --------------------------------------------
+  Space t o            n       Open new tab
+  Space t x            n       Close tab
+  Space t n / t p      n       Next / previous tab
+
+
+================================================================================
+ 4. SEARCH & FIND (TELESCOPE)
+================================================================================
+
+  OPEN A PICKER
+  -------------------  --------------------------------------------------
+  Space s f            Find files (includes hidden; skips .git, .venv)
+  Space s g            Grep text in whole project
+  Space s w            Grep the word under cursor
+  Space s /            Grep in open files only
+  Space /              Search inside current file
+  Space s .            Recent files
+  Space s r            Resume last search
+  Space s d            Search diagnostics (errors / warnings)
+  Space s h            Search help
+  Space s k            Search keymaps  (use this when you forget a key!)
+
+  INSIDE THE PICKER
+  -------------------  --------------------------------------------------
+  Ctrl+j / Ctrl+k      Move down / up in results
+  Enter or Ctrl+l      Open selected item
+  Ctrl+v / Ctrl+x      Open in vertical / horizontal split
+  Ctrl+t               Open in new tab
+  Ctrl+/ (i) or ? (n)  Show all keys for this picker
+  Esc                  Close (or go to Normal mode inside picker)
+
+  IN A BUFFER (built-in)
+  -------------------  --------------------------------------------------
+  /word                Search forward       (case-insensitive; type a
+  ?word                Search backward       capital to make it exact)
+
+
+================================================================================
+ 5. AUTOCOMPLETE & SNIPPETS (nvim-cmp)          Insert mode only
+================================================================================
+
+  Key                  Action
+  -------------------  --------------------------------------------------
+  Ctrl+Space           Open completion menu manually
+  Tab / Shift+Tab      Next / previous item  (or jump in snippet)
+  Ctrl+n / Ctrl+p      Next / previous item
+  Ctrl+y               ACCEPT the selected item  (Enter does NOT accept)
+  Ctrl+f / Ctrl+b      Scroll docs window forward / back
+  Ctrl+l / Ctrl+h      Snippet: jump to next / previous placeholder
+
+  Menu tags: [LSP]  [Snippet]  [Buffer]  [Path]
+
+
+================================================================================
+ 6. LSP (CODE INTELLIGENCE)         keys exist only after an LSP attaches
+================================================================================
+
+  Servers: clangd, pyright, ruff, ty, lua_ls     Manage with  :Mason
+
+  GO TO
+  -------------------  --------------------------------------------------
+  gd                   Definition
+  gr                   References
+  gI                   Implementation
+  gD                   Declaration (header file in C)
+  Space D              Type definition
+  Ctrl+t               Jump back after gd
+
+  SYMBOLS & ACTIONS
+  -------------------  --------------------------------------------------
+  Space d s            Symbols in this file
+  Space w s            Symbols in whole project
+  Space r n            Rename symbol everywhere
+  Space c a  (n, v)    Code action / quick fix
+  Space t h            Toggle inlay hints
+
+
+================================================================================
+ 7. HOVER, SIGNATURE, DIAGNOSTICS
+================================================================================
+
+  HOVER DOCS
+  -------------------  --------------------------------------------------
+  K                    Show docs for word under cursor
+  gK                   Jump into the hover window
+  Ctrl+n / Ctrl+p      Switch hover provider (LSP / diagnostic / man)
+
+  FUNCTION SIGNATURE
+  -------------------  --------------------------------------------------
+  Ctrl+k (Insert)      Toggle signature popup  (appears after "(" or ",")
+
+  DIAGNOSTICS (errors and warnings)
+  -------------------  --------------------------------------------------
+  [d / ]d              Previous / next diagnostic    (see conflicts, sec. 15)
+  Space d              Show message in a floating window
+  Space q              List all diagnostics
+
+
+================================================================================
+ 8. FILE EXPLORER (NEO-TREE)
+================================================================================
+
+  OPEN
+  -------------------  --------------------------------------------------
+  Space e              Toggle explorer on the left
+  \                    Reveal current file in the explorer
+  Space n g s          Git status window (floating)
+
+  INSIDE THE TREE
+  -------------------  --------------------------------------------------
+  Enter or l           Open file / expand folder
+  Space                Expand / collapse folder
+  s / S                Open in vertical / horizontal split
+  t                    Open in new tab
+  w                    Open in a window you pick
+  P                    Preview file
+  C / z                Close folder / close all folders
+  Backspace            Go up one folder
+  .                    Make this folder the root
+  R                    Refresh
+  H                    Show / hide hidden files
+  /                    Fuzzy find
+  q                    Close explorer
+  ?                    Show all keys
+
+  FILE ACTIONS
+  -------------------  --------------------------------------------------
+  a / A                Add file / add folder   (end name with / for folder)
+  r                    Rename
+  d                    Delete
+  y / x / p            Copy / cut / paste
+  c / m                Copy to / move to (asks for path)
+
+  GIT STATUS WINDOW (Space n g s)
+  -------------------  --------------------------------------------------
+  g a / g u            Stage / unstage file
+  g c / g p            Commit / push
+
+
+================================================================================
+ 9. PYTHON  (venv-selector + uv)
+================================================================================
+
+  VIRTUAL ENVIRONMENT
+  -------------------  --------------------------------------------------
+  Space c e a          Pick a venv / conda env     (needs "fdfind" for conda)
+
+  UV PROJECTS  (prefix = Space x)
+  -------------------  --------------------------------------------------
+  Space x r            Run current file
+  Space x s  (v)       Run selected code
+  Space x f            Run function
+  Space x e            Manage environment
+  Space x i            Init uv project
+  Space x a            Add package
+  Space x d            Remove package
+  Space x c            Sync packages
+
+
+================================================================================
+ 10. RUST            keys exist only in Rust files
+================================================================================
+
+  K                    Hover actions
+  Space r a            Code action
+  Space r r            Run (runnables)
+  Space r t            Run tests
+  Space r d            Debug
+  Space r e            Explain error
+  Space r m            Expand macro
+  Space r c            Open Cargo.toml
+
+  Inlay hints are ON by default in Rust files (Space t h to toggle).
+
+
+================================================================================
+ 11. COMMENTING
+================================================================================
+
+  Ctrl+/ (n, v)        Toggle comment on line / selection
+  Ctrl+c (n, v)        Same  (replaces the normal "cancel" key)
+  gcc                  Toggle comment on current line
+  gc + motion          Comment a range (gcap = paragraph, gc3j = 3 lines)
+  gc  (v)              Comment selection
+  gbc                  Toggle BLOCK comment
+
+  If Ctrl+/ does nothing in your terminal, use Ctrl+_ or gcc.
+
+
+================================================================================
+ 12. TEXT OBJECTS (TREESITTER)       may NOT work, see conflicts (sec. 15)
+================================================================================
+
+  Use after d, c, y, v:   e.g.  daf = delete function    vic = select class body
+
+  a f / i f            Function  (outer / inner)
+  a c / i c            Class     (outer / inner)
+  a a / i a            Parameter (outer / inner)
+  ] m / [ m            Next / previous function
+  ] ] / [ [            Next / previous class
+
+  Rainbow brackets are automatic.
+
+
+================================================================================
+ 13. BEHAVIOR SETTINGS THAT MATTER
+================================================================================
+
+  - Clipboard is shared with the system: y in Neovim = Ctrl+v in other apps.
+  - Mouse works in all modes.
+  - h / l / Left / Right / Backspace / Space wrap to the previous/next line.
+  - Search ignores case unless you type a capital letter.
+  - Leader sequences must be typed fast: 300 ms between keys.
+  - Enter / o / O do not continue comments automatically.
+  - Undo history is saved: u works even after reopening a file.
+  - Yanked text flashes briefly.
+  - Hyphen counts as part of a word (my-var is ONE word for w, b, *).
+  - Wrapping is ON at startup (the last lines of options set wrap = true).
+
+
+================================================================================
+ 14. VIM BASICS (FROM :Tutor)            plain Vim, works in every file
+================================================================================
+
+  FORMULA:   operator  [count]  motion          example:  d2w = delete 2 words
+  Operators: d delete    c change    y copy (yank)
+  Double it for a whole line:  dd   cc   yy        Count repeats:  2w  3e  5j
+
+  MODES
+  -------------------  --------------------------------------------------
+  Esc                  Back to Normal mode (also cancels a half-typed key)
+  i / a                Insert before / after the cursor
+  A                    Append at end of line
+  o / O                New line below / above, start typing
+  R                    Replace mode (type over text) until Esc
+  v                    Visual mode (select text)
+
+  MOVE
+  -------------------  --------------------------------------------------
+  h  j  k  l           Left / down / up / right
+  w / e                Next word start / end of word
+  0 / $                Start / end of line
+  gg / G               First / last line
+  {n} G                Go to line n  (example: 25G)
+  %                    Jump to matching ( ) [ ] { }
+  Ctrl+o / Ctrl+i      Jump back / forward in position history
+  Ctrl+g               Show file name and position
+
+  DELETE / CHANGE / COPY
+  -------------------  --------------------------------------------------
+  x                    Delete character
+  dw / de / d$         Delete to next word / end of word / end of line
+  dd / 2dd             Delete line / 2 lines
+  ce / c$              Change to end of word / end of line
+  r{char}              Replace ONE character  (example: rx)
+  yw / yy              Copy word / line
+  v ... y              Select, then copy
+  p / P                Paste after / before cursor
+  u / U / Ctrl+r       Undo / undo whole line / redo
+
+  SEARCH & REPLACE
+  -------------------  --------------------------------------------------
+  /text  ?text         Search forward / backward  (then n / N for next/prev)
+  /text\c              Ignore case for this one search
+  :s/old/new/g         Replace all on this line
+  :5,10s/old/new/g     Replace on lines 5 to 10
+  :%s/old/new/g        Replace in whole file
+  :%s/old/new/gc       Whole file, ask yes/no for each
+
+  FILES & SHELL
+  -------------------  --------------------------------------------------
+  :w / :q / :wq        Save / quit / save and quit
+  :q!                  Quit and DISCARD changes
+  :w NAME              Save as NAME
+  :'<,'>w NAME         Save selected lines (select with v first)
+  :r NAME              Insert file below cursor
+  :r !ls               Insert command output below cursor
+  :!cmd                Run a shell command  (:!ls)
+  :e $MYVIMRC          Open your Neovim config
+  :w ++p               Save and create missing folders
+  :Tutor               Open the interactive tutorial
+
+  OPTIONS
+  -------------------  --------------------------------------------------
+  :set ic / noic       Ignore case on / off        (invic = flip)
+  :set hls is          Highlight matches / show while typing
+  :nohlsearch          Remove search highlight
+
+  HELP & COMMAND LINE
+  -------------------  --------------------------------------------------
+  :help  :help topic   Open help / help on a topic     (F1 also works)
+  Ctrl+w Ctrl+w        Jump between windows (help <-> your file)
+  Ctrl+d               In command line: list completions
+  Tab / Shift+Tab      In command line: next / previous completion
+
+  YOUR CONFIG CHANGES
+  ------------------------------------------------------------------------
+  x does not fill the register  |  p in Visual keeps your copied text
+  Ctrl+d / Ctrl+u / n / N keep the cursor centered
+  Search highlight is OFF by default  |  y / d / p use the system clipboard
+
+
+================================================================================
+ 15. CONFLICTS & CONFIG FIXES  (read this!)
+================================================================================
+
+  KEY CONFLICTS
+  ------------------------------------------------------------------------
+  1. Space x          closes a buffer, but uv.nvim also uses Space x as its
+                      prefix. Closing a buffer waits 300 ms. FIX: change the
+                      uv prefix (e.g. to <leader>u) in the uv config.
+  2. Space x s        close split (sec. 3)  vs  uv "run selection" (sec. 9).
+                      Only one works. FIX: move one to another key.
+  3. ] d / [ d        diagnostics (sec. 7)  vs  Treesitter "next/prev
+                      conditional". Only one works. FIX: remove ]d/[d from
+                      the Treesitter move keys.
+  4. Space d          waits 300 ms because Space d s also exists.
+  5. K                hover.nvim everywhere; Rust hover actions in Rust files.
+
+  CONFIG FIXES NEEDED
+  ------------------------------------------------------------------------
+  - Custom snippets file: the TextYankPost autocmd ends with "}" but needs
+    "})". Add the missing ")".
+  - Treesitter: install(parsers_to_install) fails because that list is
+    commented out. Use  install(essential_parsers)  instead.
+  - Treesitter text objects: with the main-branch plugin, keys in setup()
+    may not be created. Set them with vim.keymap.set + select_textobject.
+  - Telescope file: first line is "urn {" (should be "return {"), the closing
+    "}" is missing, and the live_grep block must move inside pickers = {}.
+  - Python LSP: pyright and ty both run, which can give duplicate results.
+
+
+################################################################################
+#   Tip: forgot a key?  Space s k  (search keymaps)   |   ?  inside Neo-tree   #
+################################################################################

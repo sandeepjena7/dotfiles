@@ -8,8 +8,12 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- For conciseness
 local opts = { noremap = true, silent = true }
 
--- save file
-vim.keymap.set('n', '<C-s>', '<cmd> w <CR>', opts)
+-- save file (normal mode)
+vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', opts)
+-- save file and leave insert mode
+vim.keymap.set('i', '<C-s>', '<cmd>w<CR><Esc>', opts)
+-- save file from visual/select mode
+vim.keymap.set({ 'v', 's' }, '<C-s>', '<Esc><cmd>w<CR>', opts)
 
 -- save file without auto-formatting
 vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', opts)
