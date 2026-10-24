@@ -40,7 +40,17 @@ return {
           maximum_padding = 5,
           maximum_length = 15,
           sort_by = 'insert_at_end',
+          -- hide empty, unnamed buffers (the "[No Name]" tab)
+        custom_filter = function(buf_number)
+          local name = vim.fn.bufname(buf_number)
+          if name == "" and vim.bo[buf_number].buftype == "" and not vim.bo[buf_number].modified then
+            return false
+          end
+          return true
+        end,
         },
+
+        
         highlights = {
           separator = {
             fg = '#434C5E',

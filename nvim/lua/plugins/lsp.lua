@@ -281,20 +281,29 @@ return {
 		-- })
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
+		-- require("mason-lspconfig").setup({
+		-- 	handlers = {
+		-- 		function(server_name)
+		-- 			if server_name == "rust_analyzer" then
+		-- 				return -- rustaceanvim handles it
+		-- 			end
+		-- 			local server = servers[server_name] or {}
+		-- 			-- This handles overriding only values explicitly passed
+		-- 			-- by the server configuration above. Useful when disabling
+		-- 			-- certain features of an LSP (for example, turning off formatting for tsserver)
+		-- 			server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+		-- 			require("lspconfig")[server_name].setup(server)
+		-- 		end,
+		-- 	},
+		-- })
+		for name, cfg in pairs(servers) do
+			cfg.capabilities = vim.tbl_deep_extend("force", {}, capabilities, cfg.capabilities or {})
+			vim.lsp.config(name, cfg)
+		end
+
+		-- NEW: replaces the old handlers = { ... } block
 		require("mason-lspconfig").setup({
-			handlers = {
-				function(server_name)
-					if server_name == "rust_analyzer" then
-						return -- rustaceanvim handles it
-					end
-					local server = servers[server_name] or {}
-					-- This handles overriding only values explicitly passed
-					-- by the server configuration above. Useful when disabling
-					-- certain features of an LSP (for example, turning off formatting for tsserver)
-					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-					require("lspconfig")[server_name].setup(server)
-				end,
-			},
+			automatic_enable = { exclude = { "rust_analyzer" } },
 		})
 	end,
 }
